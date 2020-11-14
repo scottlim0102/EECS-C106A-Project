@@ -78,37 +78,35 @@ def hat_3d(xi):
         
     return xi_hat
 
-def homog_3d(xi, theta):
-    """
-    Prelab Part (d)
-
-    Computes a 4x4 homogeneous transformation matrix given a 3D twist and a 
-    joint displacement.
+    function g = homog_3d(xi, theta)
+%     Prelab Part (d)
+% 
+%     Computes a 4x4 homogeneous transformation matrix given a 3D twist and a 
+%     joint displacement.
+%     
+%     Args:
+%     xi - (6,) ndarray: the 3D twist
+%     theta: the joint displacement
+%     Returns:
+%     g - (4,4) ndarary: the resulting homogeneous transformation matrix
+    if size(xi) ~= (1,6)
+        error('xi must be a 6-vector')
+    end
     
-    Args:
-    xi - (6,) ndarray: the 3D twist
-    theta: the joint displacement
-    Returns:
-    g - (4,4) ndarary: the resulting homogeneous transformation matrix
-    """
-    if not xi.shape == (6,):
-        raise TypeError('xi must be a 6-vector')
-
-    v = xi[:3]
-    w = xi[3:]
-    I = np.eye(3)
-    if np.allclose(w, 0):
-        # Pure translation
-        R = np.eye(3)
-        p = v*theta
-    else:
-        # Translation and rotation
-        R = rotation_3d(w, theta)
-        p = 1/np.linalg.norm(w)**2*(np.matmul((np.eye(3)-rotation_3d(w, theta)),np.matmul(skew_3d(w),v)) + np.matmul(np.outer(w,w),v)*theta)
-    g = np.eye(4)
-    g[:3, :3] = R
-    g[:3, 3] = p
-    return g
+    v = xi(1:3);
+    w = xi(4:end);
+    I = eye(3);
+    if (abs(w(1)) <= 1e-8) && (abs(w(2)) <= 1e-8) && (abs(w(3)) <= 1e-8) % Pure translation
+        R = eye(3);
+        p = v*theta;
+    else % Translation and rotation
+        R = rotation_3d(w, theta);
+        p = 1/norm(w)^2*((eye(3)-rotation_3d(w, theta))*(skew_3d(w)*v) + ((w'*w)*v)*theta);
+    g = eye(4);
+    g(1:3, 1:3) = R;
+    g(1:3, 4) = p;
+    end
+    end
 
 
 def prod_exp(xi, theta):
