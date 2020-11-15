@@ -37,47 +37,46 @@ function (one, two, three, four, five, six, seven, eight, nine, ten) = skew[thet
 
     return omega_hat
 
-def rotation_3d(omega, theta):
-    """
-    Prelab Part (b)
+    % -- Rotation Start ---
+    function rot = rotation_3d(omega, theta)
 
-    Computes a 3D rotation matrix given a rotation axis and angle of rotation.
+    % Computes a 3D rotation matrix given a rotation axis and angle of rotation.  
+    % Args:
+    % omega - 3x1 array: the axis of rotation
+    % theta: the angle of rotation    
+    % Returns:
+    % rot - 3x3 array: the resulting rotation matrix
     
-    Args:
-    omega - (3,) ndarray: the axis of rotation
-    theta: the angle of rotation
+    if (size(omega) ~= [3 1])
+        error('omega must be a 3-vector')
+    end
     
-    Returns:
-    rot - (3,3) ndarray: the resulting rotation matrix
-    """
-    if not omega.shape == (3,):
-        raise TypeError('omega must be a 3-vector')
+    rot = eye(3) + skew(omega)/norm(omega)*sin(norm(omega)*theta) 
+        + mtimes(skew(omega),skew(omega))/norm(omega).^2*(1-cos(norm(omega)*theta))
     
-    rot = np.eye(3) + skew_3d(omega)/np.linalg.norm(omega)*np.sin(np.linalg.norm(omega)*theta) + np.matmul(skew_3d(omega),skew_3d(omega))/np.linalg.norm(omega)**2*(1-np.cos(np.linalg.norm(omega)*theta))
+    end
+    % -- Rotation End --
     
-    return rot
+    % -- Hat Start -- 
+    function xi_hat = hat_3d(xi)
+    
+    % Converts a 3D twist to its corresponding 4x4 matrix representation  
+    % Args:
+    % xi - 6x1 array: the 3D twist 
+    % Returns:
+    % xi_hat - 4x4 array: the corresponding 4x4 matrix
+    
+    if (size(xi) ~= [6 1])
+        error('xi must be a 6-vector')
+    end
 
-def hat_3d(xi):
-    """
-    Prelab Part (c)
-
-    Converts a 3D twist to its corresponding 4x4 matrix representation
-    
-    Args:
-    xi - (6,) ndarray: the 3D twist
-    
-    Returns:
-    xi_hat - (4,4) ndarray: the corresponding 4x4 matrix
-    """
-    if not xi.shape == (6,):
-        raise TypeError('xi must be a 6-vector')
-
-    xi_hat = np.zeros([4,4])
-    xi_hat[0:3,0:3] = skew_3d(xi[3:6])
-    xi_hat[0:3,3] = xi[0:3]
+    xi_hat = zeros(4)
+    xi_hat(0:3,0:3) = skew(xi(3:6))
+    xi_hat(0:3,3) = xi(0:3)
         
-    return xi_hat
-
+    end
+    % -- Hat End --
+    
     function g = homog_3d(xi, theta)
 %     Prelab Part (d)
 % 
