@@ -6,10 +6,12 @@
 % 1st: Time
 % 2nd: Hip Position
 % 3rd: Hip Quaternion
-% 4th~6th: right_arm/forearm/hand_joint
-% 7th~9th: left_arm/forearm/hand_joint
-% 10th~12th: right_upLeg/leg/foot_joint
-% 13th~15th: left_upLeg/leg/foot_joint
+% 4th~10th: spine_joints
+% 11th: head_joint
+% 12th~14th: right_arm/forearm/hand_joint
+% 15th~17th: left_arm/forearm/hand_joint
+% 18th~20th: right_upLeg/leg/foot_joint
+% 21st~23rd: left_upLeg/leg/foot_joint
 
 % Output Joint_Mat's column order is as follows:
 % 1st~3rd: right_arm/forearm/hand_joint
@@ -19,8 +21,8 @@
 
 clear all; close all; clc;
 
-Data = readtable('11.28.20-CSV.xlsx'); % Change the file name to whatever that contains ARKit data
-Data = table2array(Data(:,4:end));
+Data = readtable('11.28.20-Excel.xlsx'); % Change the file name to whatever that contains ARKit data
+Data = table2array(Data(:,12:end));
 
 Joint_Mat = {};
 for index = 1:numel(Data)
