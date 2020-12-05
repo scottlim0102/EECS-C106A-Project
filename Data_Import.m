@@ -22,6 +22,7 @@
 clear all; close all; clc;
 
 Data = readtable('11.28.20-Excel.xlsx'); % Change the file name to whatever that contains ARKit data
+Timestamps = table2array(Data(:,1));
 Data = table2array(Data(:,12:end));
 
 Joint_Mat = {};
