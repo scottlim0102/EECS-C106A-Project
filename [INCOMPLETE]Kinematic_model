@@ -1,0 +1,108 @@
+%Documentation
+% The data flow is as follows:
+% the thetas given correspond to x, y, z rotations of each joint. From
+% these thetas, the appropriate Rotation matrices are obtained, then the 
+% equivalent Rot-final matrix is obtained, which is used to calculate 
+% the omega axis about which the rotation is carried out. Since we know the
+% final rotation matrix, we can also calculate theta-final about the omega
+% axis. Omega and theta-final are used to calculate the xi axes about each
+% joint. Then the exponential map is produced for each group of joints and 
+% the positions are found. These positions are then compared to the
+% positions obtained from the ARKit and returned if closer than the error
+% to the actual positions. Otherwise, a different set of angles is used. 
+
+
+% set up Maps to hold positions [x, y, z] for each joint
+joint_positions = containers.Map
+joint_positions = positions(get_thetas())
+
+
+
+
+
+
+%--begin THETAS --%
+%Obtain the values of Thetas from the user, one joint at a time. 
+%can be converted into a list that is passed all at once
+
+function THETAS = get_thetas()
+    %initialize a container map with all zeros
+    THETAS = containers.Map({'lshoulder', 'lelbow',...
+        'lwrist', 'rshoulder', 'relbow', 'rwrist', 'lhip',...
+        'lknee', 'lankle', 'rhip', 'rknee', 'rankle'}, {
+        [0, 0, 0], [0, 0, 0], [0, 0, 0], [0, 0, 0], [0, 0, 0]...
+        , [0, 0, 0], [0, 0, 0], [0, 0, 0], [0, 0, 0], [0, 0, 0]...
+        , [0, 0, 0], [0, 0, 0]});
+    
+end
+
+%--end THETAS --%
+    
+
+%Takes in a container map of thetas and outputs a container map of positions
+% keys in container map are in the order:
+%  input: container map THETAS
+% [lshoulder, lelbow, lwrist, rshoulder, relbow, rwrist, lhip, lknee, lankle, rhip, rknee, rankle]
+% output: container map positions
+% [lshoulder, lelbow, lwrist, rshoulder, relbow, rwrist, lhip, lknee, lankle, rhip, rknee, rankle]
+
+
+
+function positions =  theta_to_position(THETAS)
+    
+%find rotation matrices
+
+%find resultant transformation
+
+%compare resultant transformation matrices
+   
+    
+end
+
+% theta_to_rotation computes the rotation matrix from 
+function rotation_final = theta_to_rotation(joint_thetas)
+
+theta_x = joint_thetas(0)
+theta_y = joint_thetas(1)
+theta_z = joint_thetas(2)
+
+R_x = [1 0 0; 0 cos(theta_x) -sin(theta_x); 0 sin(theta_x) cos(theta_x)]
+R_y = [cos(theta_y) 0 sin(theta_y); 0 1 0; -sin(theta_y) 0 cos(theta_y)]
+R_z = [cos(theta_z) -sin(theta_z) 0; sin(theta_z) cos(theta_z) 0; 0 0 1]
+
+rotation_final = R_z*R_y*R_x
+
+end
+
+
+%rotation_to_theta computes the theta associated with this rotation_matrix
+%i.e in angle axis format using the formula theta = cos^-1((Tr(A)-1)/2))
+
+function theta = rotation_to_theta(rotation_matrix)
+Tr = trace(rotation_matrix)
+theta = acos((Tr-1)/2) 
+
+end
+
+% rotation_to_omega computes the omega axis associated with this
+% rotation-matrix and theta i.e in angle axis format using the formula
+% [R_32 - R_23; R_13 - R_31; R_21 - R_12]/ 2 sin(theta)
+
+function omega = rotation_to_omega(rotation_matrix, theta)
+R_32 = rotation_matrix(3, 2)
+R_23 = rotation_matrix(2, 3)
+R_13 = rotation_matrix(1, 3)
+R_31 = rotation_matrix(3, 1)
+R_21 = rotation_matrix(2, 1)
+R_12 = rotation_matrix(1, 2)
+R_list = [R_32 - R_23; R_13 - R_31; R_21 - R_12]
+
+omega = R_list/(2*sin(theta))
+end
+
+% xi_finder computes the xi given the omega axis of angle-axis rotation 
+% and the position of any point on omega axis. 
+function xi = xi_finder(omega, position) 
+
+xi = [cross(-omega, position); omega]
+end
