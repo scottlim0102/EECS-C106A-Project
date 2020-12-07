@@ -17,16 +17,16 @@
 
 function thetas = theta_dictionary(rotmat)
     thetas = containers.Map();
-    thetas('right_arm_joint') = rotm2eul(rotmat(0)); 
-    thetas('right_forearm_joint') = rotm2eul(rotmat(1)); 
-    thetas('right_hand_joint') = rotm2eul(rotmat(2)); 
-    thetas('left_arm_joint') = rotm2eul(rotmat(3)); 
-    thetas('left_forearm_joint') = rotm2eul(rotmat(4)); 
-    thetas('left_hand_joint') = rotm2eul(rotmat(5)); 
-    thetas('right_upLeg_joint') = rotm2eul(rotmat(6)); 
-    thetas('right_leg_joint') = rotm2eul(rotmat(7)); 
-    thetas('right_foot_joint') = rotm2eul(rotmat(8)); 
-    thetas('left_upLeg_joint') = rotm2eul(rotmat(9)); 
-    thetas('left_leg_joint') = rotm2eul(rotmat(10)); 
-    thetas('left_foot_joint') = rotm2eul(rotmat(11)); 
+    thetas('right_arm_joint') = rotm2eul(rotmat{0}(1:3, 1:3)); 
+    thetas('right_forearm_joint') = rotm2eul(rotmat{1}); 
+    thetas('right_hand_joint') = rotm2eul(rotmat{2}); 
+    thetas('left_arm_joint') = rotm2eul(rotmat{3}); 
+    thetas('left_forearm_joint') = rotm2eul(rotmat{4}); 
+    thetas('left_hand_joint') = rotm2eul(rotmat{5}); 
+    thetas('right_upLeg_joint') = rotm2eul(rotmat{6}); 
+    thetas('right_leg_joint') = rotm2eul(rotmat{7}(1:3, 1:3)); 
+    thetas('right_foot_joint') = rotm2eul(rotmat{8}(1:3, 1:3)); 
+    thetas('left_upLeg_joint') = rotm2eul(rotmat{9}(1:3, 1:3)); 
+    thetas('left_leg_joint') = rotm2eul(rotmat{10}(1:3, 1:3)); 
+    thetas('left_foot_joint') = rotm2eul(rotmat{11}(1:3, 1:3)); 
 end
