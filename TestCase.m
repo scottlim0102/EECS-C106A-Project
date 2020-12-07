@@ -1,26 +1,26 @@
 %% Test skew_3d()
-print('Testing skew_3d')
+disp('Testing skew_3d')
 arg1 = [1.0, 2, 3];
 ret_desired = [[ 0., -3.,  2.],
     [ 3., -0., -1.],
     [-2.,  1.,  0.]];
 if skew_3d(arg1) == ret_desired
-    print('Passed!')
+    disp('Passed!')
 else
-    print('Failed')
+    disp('Failed')
 end
 
 %% Test rotation_3d()
-print('Testing skew_3d')
+disp('Testing skew_3d')
 arg1 = [2.0, 1, 3];
 arg2 = 0.587;
 ret_desired = [[-0.1325, -0.4234,  0.8962],
     [ 0.8765, -0.4723, -0.0935],
     [ 0.4629,  0.7731,  0.4337]];
 if rotation_3d(arg1, arg2) == ret_desired
-    print('Passed!')
+    disp('Passed!')
 else
-    print('Failed')
+    disp('Failed')
 end
 
 %% Test hat_3d()
@@ -30,9 +30,9 @@ ret_desired = [[ 0., -2.,  4.,  2.],
     [-4.,  5.,  0.,  3.],
     [ 0.,  0.,  0.,  0.]];
 if hat_3d(arg1) == ret_desired
-    print('Passed!')
+    disp('Passed!')
 else
-    print('Failed')
+    disp('Failed')
 end
 
 %% Test homog_3d()
@@ -43,9 +43,9 @@ ret_desired = [[ 0.4249,  0.8601, -0.2824,  1.7814],
     [ 0.8575, -0.4824, -0.179 ,  0.1978],
     [ 0.    ,  0.    ,  0.    ,  1.    ]];
 if homog_3d(arg1, arg2) == ret_desired
-    print('Passed!')
+    disp('Passed!')
 else
-    print('Failed')
+    disp('Failed')
 end
 
 %% Test prod_exp()
@@ -58,9 +58,9 @@ ret_desired = [[ 0.4392,  0.4998,  0.7466,  7.6936],
     [ 0.6097,  0.4446, -0.6562,  3.3598],
     [ 0.    ,  0.    ,  0.    ,  1.    ]];
 if prod_exp(arg1, arg2) == ret_desired
-    print('Passed!')
+    disp('Passed!')
 else
-    print('Failed')
+    disp('Failed')
 end
 
 %% Test 2D case of left arm
@@ -87,9 +87,9 @@ g_desired = [[1, 0, 0, 0],
     [0, 0, 1, 0.129],
     [0, 0, 0, 1]];
 if prod_exp(xi_array, theta)*gst0 == g_desired
-    print('Passed!')
+    disp('Passed!')
 else
-    print('Failed')
+    disp('Failed')
 end
 
 %% Test 2D case of right arm
@@ -115,9 +115,9 @@ g_desired = [[1, 0, 0, 0],
     [0, 1, 0, -0.569],
     [0, 0, 0, 1]];
 if prod_exp(xi_array, theta)*gst0 == g_desired
-    print('Passed!')
+    disp('Passed!')
 else
-    print('Failed')
+    disp('Failed')
 end
 
 %% Test 2D case of right leg
@@ -142,7 +142,7 @@ g_desired = [[1, 0, 0, 0],
     [0, 0, 1, -0.095],
     [0, 0, 0, 1]];
 if prod_exp(xi_array, theta)*gst0 == g_desired
-    print('Passed!')
+    disp('Passed!')
 else
-    print('Failed')
+    disp('Failed')
 end
