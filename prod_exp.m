@@ -13,10 +13,10 @@ function T_matrix = prod_exp(xi, theta)
    if  size_xi(1) ~= 6
        error('xi must be a 6xN')
    end
-   if sz_xi(2) ~= size_theta(0)
+   if size_xi(2) ~= size_theta(2)
        error('there must be the same number of twists as joint angles.')
    end
    T_matrix = eye(4);
-   for n = 1: size_xi(1)
-       T_matrix = T_matrix * homog_3d(xi(:,n), theta(n))   
+   for n = 1: size_xi(2)
+       T_matrix = T_matrix * homog_3d(xi(:,n), theta(n));
    end
