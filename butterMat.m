@@ -2,7 +2,7 @@ function butter_mat = butterMat(Joint_Mat)
 % Applies Butterworth filter to Joint_Mat
 % Should output a filtered M timestamps x N joints cell array with 4 x 4
 % transformation matrix entries.
-    fo = 2;     % Order of the filter. Higher gives steeper cutoffs.
+    fo = 6;     % Order of the filter. Higher gives steeper cutoffs.
     fc = 3;     % Cutoff frequency in Hz
     fs = 60;    % Sample rate in Hz
     [b,a] = butter(fo,fc/(fs/2)); % [b,a] each of length = fo + 1
