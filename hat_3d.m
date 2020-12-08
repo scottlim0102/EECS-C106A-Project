@@ -9,4 +9,4 @@ function xi_hat = hat_3d(xi)
     end
     xi_hat = zeros(4);
     xi_hat(1:3,1:3) = skew_3d(xi(4:6));
-    xi_hat(1:3,3) = xi(1:3);
+    xi_hat(1:3,4) = xi(1:3);
