@@ -27,9 +27,9 @@ function derivative = deriveJoints(matrix, timestamps)
             derivative{i,j} = real(mpower(this_diff, (1000/time_diff(i))));
         end
     end
-    % out = zeros(4,4,matrix_size(1) - 1);
-    % for i = 1:matrix_size(1) - 1
-    %     size(squeeze(matrix_diff(i,1,:,:)))
-    %     out(:,:,i) = squeeze(matrix_diff(i,3,:,:));
-    % end
+    out = zeros(4,4,matrix_size(1) - 1);
+    for i = 1:matrix_size(1) - 1
+        size(squeeze(matrix_diff(i,1,:,:)))
+        out(:,:,i) = squeeze(matrix_diff(i,3,:,:));
+    end
     
