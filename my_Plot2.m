@@ -10,7 +10,7 @@ function a = my_Plot2(matrix, n)
 
 val = [];
 for i = 1:size(matrix, 1)
-    val = [val, norm(squeeze(matrix{i,n}(1:3,4)))];
+    val = [val, matrix{i,n}(3,4)];
 end
 
 figure();
