@@ -80,9 +80,19 @@
     <div align="center" style="margin-top: 50px">
         <table style="width=100%">
             <tr>
+                <img src="images/Coordinate.jpg" align="center" height="300px" />
+                <figcaption align="center">
+                    <br /> <b> Body configuration </b>
+                </figcaption>
+            </tr>
+        </table>
+    </div>
+    <div align="center" style="margin-top: 50px">
+        <table style="width=100%">
+            <tr>
                 <img src="images/ARKit2.jpg" align="center" height="230px" />
                 <figcaption align="center">
-                    <br /> Flow chart of data acquisition
+                    <br /> <b> Flow chart of data acquisition </b>
                 </figcaption>
             </tr>
         </table>
@@ -97,9 +107,9 @@
     <div align="center" style="margin-top: 50px">
         <table style="width=100%">
             <tr>
-                <img src="images/Model.jpg" align="center" height="200px" />
+                <img src="images/Model.jpg" align="center" height="230px" />
                 <figcaption align="center">
-                    <br /> Flow chart of data processing
+                    <br /> <b> Flow chart of data processing </b>
                 </figcaption>
             </tr>
         </table>
@@ -109,11 +119,34 @@
             <tr>
                 <img src="images/Implementation.jpg" align="center" height="135px" />
                 <figcaption align="center">
-                    <br /> Raw data from ARKit 3.
+                    <br /> <b> Raw data from ARKit 3 (All transformation matrices are in respect to hip joint) </b>
                     <br /> Column A: Time stamp (ms), 60Hz sampling rate
                     <br /> Column B: Translation vector of hip joint
                     <br /> Column C: Quaternion matrix of hip joint
-                    <br /> Column D-W: Transformation matrices of joints in respect to hip joint
+                    <br /> Column D-J: Transformation matrices of Spine 1-7 joints
+                    <br /> Column K: Transformation matrices of head
+                    <br /> Column L-N: Transformation matrices of right_arm/forearm/hand_joint
+                    <br /> Column O-Q: Transformation matrices of left_arm/forearm/hand_joint
+                    <br /> Column R-T: Transformation matrices of right_upLeg/leg/foot_joint
+                    <br /> Column U-W: Transformation matrices of left_upLeg/leg/foot_joint
+                </figcaption>
+            </tr>
+        </table>
+    </div>
+    <div align="center" style="margin-top: 50px">
+        <table style="width=100%">
+            <tr>
+                <img src="images/Transformation_Matrix.jpg" align="center" height="170px" />
+                <figcaption align="center">
+                    <br /> <b> An example of 4x4 transformation matrix when imported to MATLAB</b>
+                    <br /> Since all transformation matrices are in spatial frame, the translation part can be considered as the coordinate with the origin at hip joint.
+                    <br /> We can find the distance between joints by finding the norm of a vector between those joints. Below are the joint lengths of Brian:
+                    <br /> Right/Left Upper Arm = 0.2660m
+                    <br /> Right/Left Lower Arm = 0.2680m
+                    <br /> Right/Left Upper Leg = 0.4211m
+                    <br /> Right/Left Lower Leg = 0.4573m
+                    <br /> These lengths stay consistent throughout all time stamps, thus we verified ARKit 3 uses a rigid-body model.
+                    <br /> We can now proceed to find the velocity and acceleration by taking derivative, which will be discussed in the <b>Results</b> section.
                 </figcaption>
             </tr>
         </table>
