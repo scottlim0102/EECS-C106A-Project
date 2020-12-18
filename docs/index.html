@@ -43,7 +43,7 @@
         Current procedure of evaluating posture and low-back loading requires a Kinect and a laptop with a dedicated GPU. While this works within a
         clinical setting, it is impractical outside the clinic. Shipping the Kinect and laptop proves to be very inefficient and expensive. Thus,
         this project will be improving the efficiency by implementing the data collection with an iPad and ARKit 3. In order to validate that the
-        iPad can replace the Kinect, the data collected from ARKit 3 must be validated. Futhermore, since the iPad only has one camera, a
+        iPad can replace the Kinect, the data collected from ARKit 3 must be validated. Furthermore, since the iPad only has one camera, a
         model must be implemented in order to address the joints that are hidden. This project focuses on creating an app to collect the data and
         validating various components of data collected, such as the consistency of length of the body parts and reducing noise to check the
         joint acceleration
@@ -53,22 +53,22 @@
         There are two popular methods of assessing human body motion: Azure Kinect and radiographs. However, they have their own limitations, so our
         project is focused on finding another solution that minimizes cost and space while not affecting its effectiveness to correctly address a
         person’s joint information. The current method of using Azure Kinect costs $400 for the sensor and $2000 or more for a computer with a
-        high-performance GPU. Radiography machines can easily cost more than $50,000. We want to significantly reduce the cost. Futhermore,
+        high-performance GPU. Radiography machines can easily cost more than $50,000. We want to significantly reduce the cost. Furthermore,
         radiography equipment requires a dedicated space where patients must visit for body examination. Rather, we want a solution that allows
         doctors to visit patients or even patients to self-check.
     </p>
     <p>
         In order to make low-back loading more cost effective and space efficient, we decided to use an iPad Pro and its camera to track the
-        person's limb position. An iPad Pro only costs $800 and does not require a dedicated computer. Futhermore, an iPad Pro can be easily
+        person's limb position. An iPad Pro only costs $800 and does not require a dedicated computer. Furthermore, an iPad Pro can be easily
         moved and shipped for various patients to use at the comfort of their own homes. Since we are using a single camera on an
-        iPad Pro to reduce the cost, we cannot track the joints that are hidden from the camera. Futhermore, the camera introduces noise to the
+        iPad Pro to reduce the cost, we cannot track the joints that are hidden from the camera. Furthermore, the camera introduces noise to the
         data, which adds inconsistency to the forces we are trying to find. Once we collected the data, we applied a filter in order to reject
         outliers, which reduces the noise. We analyzed the filtered data to validate that the iPad Pro can be a valid replacement for the Azure
         Kinect. By validating the data, we illustrate that we can achieve basic functionality of correctly tracking a person's limb positions
     </p>
 <h3 align="left">Implementation</h3>
     <p>
-        The project was split into two major components: data aquistion and data processing.
+        The project was split into two major components: data acquisition and data processing.
     </p>
     <p>
         Data collection was performed using ARKit 3 motion tracking software. This software works with iOS devices, enabling in-home motion
@@ -100,9 +100,9 @@
     <p>
         The data was analyzed in MATLAB. Once the data was imported, we first checked the length of the limbs to verify that ARKit 3 uses a 
         rigid-body model. This was done by simply calculating the distance between two joints. The next component of the data analysis is 
-        to apply a low-path butterworth filter. The butterworth filter is a type of signal processing filter that is designed to to have a 
+        to apply a low-path Butterworth filter. The Butterworth filter is a type of signal processing filter that is designed to to have a 
         frequency response as flat as possible to the cutoff frequency. This was applied to the position, velocity, and acceleration data.
-        Futhermore, we integrated the velocity in order to determine that the differentation done before was correct.
+        Furthermore, we integrated the velocity in order to determine that the differentiation done before was correct.
     </p>
     <div align="center" style="margin-top: 50px">
         <table style="width=100%">
@@ -153,30 +153,40 @@
     </div>
 <h3 align="left">Results</h3>
     <p>
-        The app created in order to collect data worked efficiently. The video provided below illustrates the skeleton model that indicated the 
-        translation and rotation of the joints. This skeleton moves as the app tracks the person, which helps the user determine whether or not
-        the data is correct on a surface level.
+        The data processing code included a pipeline for importing joint position data, filtering and deriving it, and then displaying the results.
+		Filters were crucial for reducing noise in the data and thereby obtaining reasonable accelerations.
+		Several filter styles were tried. At time of presentation, a 1st order 1Hz low pass Butterworth filter was in use and produced reasonable results. 
+		Following presentation feedback, a 2nd order 3Hz low pass Butterworth filter was attempted instead, with good results.
     </p>
     <div align="center">
         <video width="400" controls=controls autoplay=autoplay>
             <source src="videos/demo.mov" />
         </video>
         <figcaption align="center">
-            <br /> A video demostrating the ARKit 3 app
+            <br /> A video demonstrating the ARKit 3 app
         </figcaption>
     </div>
+	<p>
+        
+    </p>
     <div align="center" style="margin-top: 50px">
         <table style="width=100%">
             <tr align="center">
                 <td align="center">
                     <img src="images/filterresponse.png" align="center" height="200px" />
                     <figcaption align="center">
-                        <br /> The phase and magnitude of a first-order butterworth filter response with a 1Hz cutoff frequency
+                        <br /> The phase and magnitude of a first-order Butterworth filter response with a 1Hz cutoff frequency
                     </figcaption>
                 </td>
             </tr>
         </table>
     </div>
+	<p>
+        By enabling conversion between rotation matrices and Euler angles, angular displacements were efficiently recovered.
+		The angles and translation vectors were processed to obtain angular and translational velocities and accelerations,
+		with filtering at each step to ensure that noise was not excessively amplified by the derivation process.
+		The filtered accelerations are suitable for the calculation of force estimates in each joint, given corresponding mass estimates.
+    </p>
     <div align="center" style="margin-top: 50px">
         <table style="width=100%">
             <tr align="center">
@@ -184,14 +194,14 @@
                     <img src="images/rfzunfiltered.png" align="center" height="200px" />
                     <figcaption align="center">
                         <br /> Z-position of the right foot 
-                        <br /> before butterworth filtering
+                        <br /> before Butterworth filtering
                     </figcaption>
                 </td>
                 <td>
                     <img src="images/rfzfiltered.png" align="center" height="200px" />
                     <figcaption align="center">
                         <br /> Z-position of the right foot 
-                        <br /> after butterworth filtering
+                        <br /> after Butterworth filtering
                     </figcaption>
                 </td>
             </tr>
@@ -204,14 +214,14 @@
                     <img src="images/rfv.png" align="center" height="200px" />
                     <figcaption align="center">
                         <br /> Velocity of the right foot
-                        <br /> after butterworth filtering
+                        <br /> after Butterworth filtering
                     </figcaption>
                 </td>
                 <td>
                     <img src="images/rfa.png" align="center" height="200px" />
                     <figcaption align="center">
                         <br /> Acceleration of the right foot 
-                        <br /> after butterworth filtering
+                        <br /> after Butterworth filtering
                     </figcaption>
                 </td>
             </tr>
@@ -219,19 +229,19 @@
     </div>
 <h3 align="left">Conclusion</h3>
     <p>
-        Due to the iPad Pro camera, there is a significant amount of noise and jitterness within the data. ARKit 3 reacts poorly to hidden limbs 
-        and any movement to the iPad during the data collection. Futhermore, since derivatives were applied during the analysis of the data and 
-        for the calcuation of the various forces on the joints, the noises that are present are amplified. While the filtering reduces some of the 
-        noise present, the filtering also causes changes in the data that may affect the results. Futhermore, there are currently no 
+        Due to the iPad Pro camera, there is a significant amount of noise and jittery motion within the data. ARKit 3 reacts poorly to hidden limbs 
+        and any movement to the iPad during the data collection. Furthermore, since derivatives were applied during the analysis of the data and 
+        for the calculation of the various forces on the joints, the noises that are present are amplified. While the filtering reduces some of the 
+        noise present, the filtering also causes changes in the data that may affect the results. Furthermore, there are currently no 
         realistic limit on joint forces. This not only would require a detailed biomechanical solution, but it also would require the subject's
-        strengh and mass in each body part. 
+        strength and mass in each body part. 
     </p>
     <p>
-        In order to reduce the noise in the data, we would like the experiement with different filters and take away any outliers of the data. 
+        In order to reduce the noise in the data, we would like the experiment with different filters and take away any outliers of the data. 
         Since there are currently no realistic limit on joint forces, we would also like the create a dynamic model in order to simulate forces
-        on the body. Futhermore, we would like to transfer all the MATLAB processing on to the iPad. This completely reduces the need for a 
-        laptop, which reduces the cost and improves the efficiency of the assesment on low-back loading. Along with trasfering all the 
-        data processing onto the iPad, we would also like to output the joint angles on the screen in realtime. This makes the app more 
+        on the body. Furthermore, we would like to transfer all the MATLAB processing on to the iPad. This completely reduces the need for a 
+        laptop, which reduces the cost and improves the efficiency of the assessment on low-back loading. Along with transferring all the 
+        data processing onto the iPad, we would also like to output the joint angles on the screen in real-time. This makes the app more 
         user-friendly and helps the user check for any errors while collecting the data.
     </p>
 <h3 align="left">Team</h3>
