@@ -43,16 +43,17 @@ function [x,y,z] = integrator(matrix, n, to_plot, original)
     
     
     if to_plot == 1
-        figure('Name', 'Integrated xyz')
+        figure('Name', 'Integrated xyzzzzzzz')
         hold on
         title("Integrated xyz-data for joint " + n)
-        hold on
         plot(x,'--b')
         hold on
         plot(y, '-r')
         hold on
         plot(z, 'g')
         hold on
+        xlabel('Sample number');
+        ylabel('Joint Position (m)');
         legend(["x", "y", "z"])
         
         figure('Name', 'Unintegrated xyz')
